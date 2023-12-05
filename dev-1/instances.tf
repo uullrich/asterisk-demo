@@ -3,6 +3,7 @@ data "template_file" "bootstrap" {
   vars = {
     instance_name    = "asterisk-demo"
     asterisk_version = var.asterisk_version
+    node_version     = var.node_version
   }
 }
 
@@ -24,15 +25,24 @@ resource "aws_instance" "asterisk" {
     Name        = "Asterisk Demo"
   }
 
-  provisioner "file" {
-    source      = "../config"
-    destination = "/home/ubuntu/"
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    host        = self.public_ip
+    private_key = file(var.private_key_local_path)
+  }
 
-    connection {
-      type        = "ssh"
-      user        = "ubuntu"
-      host        = self.public_ip
-      private_key = file(var.private_key_local_path)
-    }
+  provisioner "remote-exec" {
+    inline = ["mkdir -p /home/ubuntu/asterisk/src", "mkdir -p /home/ubuntu/asterisk/config"]
+  }
+
+  provisioner "file" {
+    source      = "../config/"
+    destination = "/home/ubuntu/asterisk/config"
+  }
+
+  provisioner "file" {
+    source      = "../src/"
+    destination = "/home/ubuntu/asterisk/src"
   }
 }

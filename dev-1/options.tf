@@ -17,3 +17,8 @@ variable "asterisk_version" {
   type    = string
   default = "21"
 }
+
+variable "node_version" {
+  type    = string
+  default = "20.10.0"
+}
