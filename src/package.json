@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "ari-client": "^2.2.0",
-    "bluebird": "^3.7.2",
-    "util": "^0.12.5"
-  }
-}

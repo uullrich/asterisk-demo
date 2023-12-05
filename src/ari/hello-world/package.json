@@ -1,0 +1,14 @@
+{
+  "name": "hello-world",
+  "version": "1.0.0",
+  "description": "Refactored example from the ari-client example: https://github.com/asterisk/node-ari-client/blob/master/examples/example.js",
+  "main": "example.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Uwe Ullrich",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "ari-client": "^2.2.0"
+  }
+}
