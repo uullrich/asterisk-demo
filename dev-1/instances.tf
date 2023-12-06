@@ -33,16 +33,11 @@ resource "aws_instance" "asterisk" {
   }
 
   provisioner "remote-exec" {
-    inline = ["mkdir -p /home/ubuntu/asterisk/src", "mkdir -p /home/ubuntu/asterisk/config"]
+    inline = ["mkdir -p /home/ubuntu/asterisk/config"]
   }
 
   provisioner "file" {
     source      = "../config/"
     destination = "/home/ubuntu/asterisk/config"
-  }
-
-  provisioner "file" {
-    source      = "../src/"
-    destination = "/home/ubuntu/asterisk/src"
   }
 }
