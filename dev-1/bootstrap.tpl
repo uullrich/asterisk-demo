@@ -5,7 +5,7 @@ hostnamectl set-hostname ${instance_name}
 
 apt update
 
-apt -y install git curl wget libnewt-dev libssl-dev libncurses5-dev subversion libsqlite3-dev build-essential libjansson-dev libxml2-dev uuid-dev certbot
+apt -y install git curl wget libnewt-dev libssl-dev libncurses5-dev subversion libsqlite3-dev build-essential libjansson-dev libxml2-dev uuid-dev certbot apache2 python3-certbot python3-certbot-apache
 
 cd /usr/src/
 
@@ -59,7 +59,21 @@ nvm ls
 
 chown -R 1000:1000 "/home/ubuntu/.npm"
 
-certbot -d ${domain_name} --standalone -m ${domain_contact_mail} --agree-tos -n certonly
+#Configure Apache2
+a2enmod ssl
+a2enmod proxy
+a2enmod proxy_http
+a2enmod proxy_wstunnel
+rsync -av /home/ubuntu/apache/config/000-default.conf /etc/apache2/sites-enabled/
+rsync -av /home/ubuntu/apache/config/ports.conf /etc/apache2/
+sed -i "s/DOMAIN/${domain_name}/g" /etc/apache2/sites-enabled/000-default.conf
+service apache2 restart
+certbot -d ${domain_name} -m ${domain_contact_mail} --agree-tos -n --apache
+cat /home/ubuntu/apache/config/000-default-le-ssl.conf >> /etc/apache2/sites-enabled/000-default-le-ssl.conf
+sed -i "s/DOMAIN/${domain_name}/g" /etc/apache2/sites-enabled/000-default-le-ssl.conf
+
+git clone https://github.com/InnovateAsterisk/Browser-Phone.git
+sudo cp -r Browser-Phone/Phone/* /var/www/html/
 
 mkdir -p /etc/asterisk/keys
 ln -s /etc/letsencrypt/live/${domain_name}/privkey.pem /etc/asterisk/keys/asterisk.key
@@ -67,5 +81,5 @@ ln -s /etc/letsencrypt/live/${domain_name}/cert.pem /etc/asterisk/keys/asterisk.
 
 reboot
 
-#for observing the compile and setup process : 
+#for observing the compile and setup process: 
 #watch tail -n 50 /var/log/cloud-init-output.log

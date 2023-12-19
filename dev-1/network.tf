@@ -78,23 +78,23 @@ resource "aws_security_group" "allow_asterisk_webserver" {
     protocol  = "tcp"
   }
 
-  #http 
-  ingress {
-    cidr_blocks = [
-      "0.0.0.0/0"
-    ]
-    from_port = 8088
-    to_port   = 8088
-    protocol  = "tcp"
-  }
-
   #https
   ingress {
     cidr_blocks = [
       "0.0.0.0/0"
     ]
-    from_port = 8089
-    to_port   = 8089
+    from_port = 443
+    to_port   = 443
+    protocol  = "tcp"
+  }
+
+  #wss
+  ingress {
+    cidr_blocks = [
+      "0.0.0.0/0"
+    ]
+    from_port = 4443
+    to_port   = 4443
     protocol  = "tcp"
   }
 }
