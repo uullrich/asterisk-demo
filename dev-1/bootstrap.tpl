@@ -5,7 +5,7 @@ hostnamectl set-hostname ${instance_name}
 
 apt update
 
-apt -y install git curl wget libnewt-dev libssl-dev libncurses5-dev subversion libsqlite3-dev build-essential libjansson-dev libxml2-dev uuid-dev
+apt -y install git curl wget libnewt-dev libssl-dev libncurses5-dev subversion libsqlite3-dev build-essential libjansson-dev libxml2-dev uuid-dev certbot
 
 cd /usr/src/
 
@@ -19,7 +19,11 @@ contrib/scripts/get_mp3_source.sh
 
 public_ip=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 
-sed -i "s/PUBLIC_IP/$public_ip/g" /home/ubuntu/config/extensions.conf
+sed -i "s/PUBLIC_IP/$public_ip/g" /home/ubuntu/asterisk/config/extensions.conf
+
+#inject passwords
+sed -i "s/ARI_PASSWORD/${ari_password}/g" /home/ubuntu/asterisk/config/ari.conf
+sed -i "s/PW_PHONE_01/${pw_phone_01}/g" /home/ubuntu/asterisk/config/pjsip.conf
 
 contrib/scripts/install_prereq install
 
@@ -54,6 +58,12 @@ nvm install
 nvm ls
 
 chown -R 1000:1000 "/home/ubuntu/.npm"
+
+certbot -d ${domain_name} --standalone -m ${domain_contact_mail} --agree-tos -n certonly
+
+mkdir -p /etc/asterisk/keys
+ln -s /etc/letsencrypt/live/${domain_name}/privkey.pem /etc/asterisk/keys/asterisk.key
+ln -s /etc/letsencrypt/live/${domain_name}/cert.pem /etc/asterisk/keys/asterisk.crt
 
 reboot
 

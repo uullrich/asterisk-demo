@@ -1,11 +1,11 @@
 variable "private_key_local_path" {
   type    = string
-  default = "~/.ssh/id_rsa"
+  default = "path_to_key"
 }
 
 variable "aws_key_pair" {
   type    = string
-  default = "uullrich_key"
+  default = "key"
 }
 
 variable "environment_name" {
@@ -21,4 +21,26 @@ variable "asterisk_version" {
 variable "node_version" {
   type    = string
   default = "20.10.0"
+}
+
+variable "endpoint_passwords" {
+  type = map(string)
+  default = {
+    phone_01 = "changeme"
+  }
+}
+
+variable "ari_password" {
+  type    = string
+  default = "changeme"
+}
+
+variable "domain_name" {
+  type    = string
+  default = "domainName.com"
+}
+
+variable "domain_contact_mail" {
+  type    = string
+  default = "your-email"
 }

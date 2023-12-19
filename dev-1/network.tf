@@ -68,6 +68,7 @@ resource "aws_security_group" "allow_asterisk_webserver" {
   name   = "allow-asterisk-webserver-sg"
   vpc_id = aws_vpc.asterisk.id
 
+  #tls cert validation
   ingress {
     cidr_blocks = [
       "0.0.0.0/0"
@@ -77,12 +78,23 @@ resource "aws_security_group" "allow_asterisk_webserver" {
     protocol  = "tcp"
   }
 
+  #http 
   ingress {
     cidr_blocks = [
       "0.0.0.0/0"
     ]
     from_port = 8088
     to_port   = 8088
+    protocol  = "tcp"
+  }
+
+  #https
+  ingress {
+    cidr_blocks = [
+      "0.0.0.0/0"
+    ]
+    from_port = 8089
+    to_port   = 8089
     protocol  = "tcp"
   }
 }

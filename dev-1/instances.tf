@@ -1,15 +1,19 @@
 data "template_file" "bootstrap" {
   template = file("./bootstrap.tpl")
   vars = {
-    instance_name    = "asterisk-demo"
-    asterisk_version = var.asterisk_version
-    node_version     = var.node_version
+    instance_name       = "asterisk-demo"
+    asterisk_version    = var.asterisk_version
+    node_version        = var.node_version
+    pw_phone_01         = var.endpoint_passwords["phone_01"]
+    ari_password        = var.ari_password
+    domain_contact_mail = var.domain_contact_mail
+    domain_name         = var.domain_name
   }
 }
 
 resource "aws_instance" "asterisk" {
   ami                         = "ami-06dd92ecc74fdfb36" # Ubuntu Server 22.04 LTS in eu-central-1
-  instance_type               = "t3.small"
+  instance_type               = "t3.nano"
   associate_public_ip_address = true
   subnet_id                   = aws_subnet.pbx_network.id
   vpc_security_group_ids      = [aws_security_group.allow_asterisk.id, aws_security_group.allow_ssh.id, aws_security_group.allow_asterisk_webserver.id]
