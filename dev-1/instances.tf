@@ -5,6 +5,8 @@ data "template_file" "bootstrap" {
     asterisk_version    = var.asterisk_version
     node_version        = var.node_version
     pw_phone_01         = var.endpoint_passwords["phone_01"]
+    pw_phone_02         = var.endpoint_passwords["phone_02"]
+    pw_phone_03         = var.endpoint_passwords["phone_03"]
     ari_password        = var.ari_password
     domain_contact_mail = var.domain_contact_mail
     domain_name         = var.domain_name

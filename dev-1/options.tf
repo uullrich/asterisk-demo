@@ -27,6 +27,8 @@ variable "endpoint_passwords" {
   type = map(string)
   default = {
     phone_01 = "changeme"
+    phone_02 = "changeme"
+    phone_03 = "changeme"
   }
 }
 

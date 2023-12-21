@@ -24,10 +24,15 @@ sed -i "s/PUBLIC_IP/$public_ip/g" /home/ubuntu/asterisk/config/extensions.conf
 #inject passwords
 sed -i "s/ARI_PASSWORD/${ari_password}/g" /home/ubuntu/asterisk/config/ari.conf
 sed -i "s/PW_PHONE_01/${pw_phone_01}/g" /home/ubuntu/asterisk/config/pjsip.conf
+sed -i "s/PW_PHONE_02/${pw_phone_02}/g" /home/ubuntu/asterisk/config/pjsip.conf
+sed -i "s/PW_PHONE_03/${pw_phone_03}/g" /home/ubuntu/asterisk/config/pjsip.conf
 
 contrib/scripts/install_prereq install
 
 ./configure
+
+make menuselect.makeopts
+menuselect/menuselect --enable codec_opus menuselect.makeopts
 
 make
 
