@@ -10,8 +10,8 @@ Furthermore I played around with an example of the ari-client package and refact
 # Usage
 
 0. Make sure your aws cli is authorized
-1. Change the backend of the terraform script
-2. Set the options in options.tf
-3. Execute command: _terraform apply_
+1. Change the backend of the terraform script in main.tf
+2. Create a local.tfvars file with the input variables from options.tf
+3. Execute command: _terraform apply -var-file="local.tfvars"_
 
 # !!! DO NOT USE IT IN PRODUCTION !!!
